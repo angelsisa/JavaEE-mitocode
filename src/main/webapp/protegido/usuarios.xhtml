@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/master.xhtml">
+	<ui:define name="content">
+		<h1>Usuarios</h1>
+		<h:form id="frm" enctype="multipart/form-data">
+			<p:inputText id="txtUsuario" value="#{usuarioBean.us}"></p:inputText>
+			<p:commandButton value="Buscar" action="#{usuarioBean.buscarUsuario()}" update="dt" />
+				<p:dataTable id="dt" var="e" value="#{usuarioBean.listaUsuarios}" paginator="true" rows="5" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5,10,15">
+					<p:column headerText="Usuario">
+						<p:outputLabel value="#{e.usuario}" />
+					</p:column>
+					<p:column headerText="Estado">
+						<p:outputLabel value="#{e.estado}" />
+					</p:column>
+					<p:column headerText="Acciones" exportable="false">
+						<p:commandButton actionListener="#{usuarioBean.mostrarData(e)}" value="Modificar" oncomplete="PF('wdlg').show()" update="frm:dlg" immediate="true" process="@this"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+				
+			<p:dialog id="dlg" widgetVar="wdlg" header="" modal="true" closeOnEscape="true" resizable="false" draggable="true">
+				<h:panelGrid id="pg" columns="3">
+				
+ 	 				<p:outputLabel for="txtUsuarioModal" value="Usuario: "/>
+					<p:inputText id="txtUsuarioModal" value="#{usuarioBean.usuario.usuario}" disabled="true"/>
+					<p:outputLabel />
+				
+					<p:outputLabel for="txtPass" value="Contraseña Actual" />
+					<p:password id="txtPass" value="#{usuarioBean.pass}" redisplay="true"/>
+					<p:commandButton value="Verificar" action="#{usuarioBean.verificarPass()}" update="matchGrid" ></p:commandButton>
+				</h:panelGrid>
+				<p:separator />
+				<p:messages id="messages" showDetail="false" autoUpdate="true" />
+				<h:panelGrid columns="2" id="matchGrid" >   
+				
+						<p:outputLabel  for="txtPassNew" value="Nueva Contraseña" />
+						<p:password id="txtPassNew" value="#{usuarioBean.passNew}" match="txtPassNewR" redisplay="true"  label="Contraseña 1"/>
+						
+				
+						<p:outputLabel  for="txtPassNewR" value="Repetir Contraseña" />
+						<p:password id="txtPassNewR" value="#{usuarioBean.passNew}" redisplay="true"  label="Contraseña 2"/>
+						
+	
+					
+					<p:commandButton value="Aceptar" rendered="#{usuarioBean.tipoDialog == 'Editar'}" update="matchGrid"  actionListener="#{usuarioBean.modificar()}" ajax="true" oncomplete="PF('wdlg').hide()"/>
+					<p:commandButton value="Cancelar"  oncomplete="PF('wdlg').hide()" ajax="true" immediate="true" />
+				</h:panelGrid>	
+				
+				<!-- <h:panelGrid columns="2" id="pgBtnAction"> -->
+				<!-- </h:panelGrid> -->			
+				
+					 				
+				
+				
+			</p:dialog>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
