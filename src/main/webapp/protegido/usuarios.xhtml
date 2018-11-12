@@ -33,7 +33,7 @@
 				
 					<p:outputLabel for="txtPass" value="Contraseña Actual" />
 					<p:password id="txtPass" value="#{usuarioBean.pass}" redisplay="true"/>
-					<p:commandButton value="Verificar" action="#{usuarioBean.verificarPass()}" update="matchGrid" ></p:commandButton>
+					<p:commandButton value="Verificar" action="#{usuarioBean.verificarPass()}" update="pgBtnAction" ></p:commandButton>
 				</h:panelGrid>
 				<p:separator />
 				<p:messages id="messages" showDetail="false" autoUpdate="true" />
@@ -48,12 +48,13 @@
 						
 	
 					
-					<p:commandButton value="Aceptar" rendered="#{usuarioBean.tipoDialog == 'Editar'}" update="matchGrid"  actionListener="#{usuarioBean.modificar()}" ajax="true" oncomplete="PF('wdlg').hide()"/>
-					<p:commandButton value="Cancelar"  oncomplete="PF('wdlg').hide()" ajax="true" immediate="true" />
+					
 				</h:panelGrid>	
 				
-				<!-- <h:panelGrid columns="2" id="pgBtnAction"> -->
-				<!-- </h:panelGrid> -->			
+				<h:panelGrid columns="2" id="pgBtnAction">
+					<p:commandButton value="Aceptar" rendered="#{usuarioBean.tipoDialog == 'Editar'}" update="matchGrid"  actionListener="#{usuarioBean.modificar()}" ajax="true" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('wdlg').hide()"/>
+					<p:commandButton value="Cancelar"  oncomplete="PF('wdlg').hide()" ajax="true" immediate="true" />
+				 </h:panelGrid>			
 				
 					 				
 				

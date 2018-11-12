@@ -92,6 +92,7 @@ public class UsuarioBean implements Serializable{
 		this.usuario = new Usuario();	
 		this.pass = "";
 		this.passNew = "";
+		this.tipoDialog = "";
 	}
 	public void buscarUsuario() {
 		try {
